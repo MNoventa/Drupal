@@ -15,7 +15,6 @@
 
 	$usuario = Drupal::currentUser();
 
-
 	//Buscar ID usuario logueado actualmente
 
 	$usuario = Drupal::currentUser()->id();
