@@ -1,0 +1,42 @@
+<?php
+  use Drupal\node\Entity\Node;
+  use Drupal\file\Entity\File;
+  
+function url_get_contents ($Url) {
+    if (!function_exists('curl_init')){ 
+        return '';
+    }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $Url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $output = curl_exec($ch);
+    curl_close($ch);
+    return $output;
+}
+
+  function cridajson_preprocess_html() {
+    \Drupal::service('cridajson.custom_import')->getServiceData();
+    //import_nodes_from_api();
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+    

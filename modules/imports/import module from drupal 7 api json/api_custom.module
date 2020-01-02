@@ -1,0 +1,97 @@
+  <?php
+function api_custom_menu() {
+	$items['api-json/all'] = array(
+		'page callback' => 'api_json_all',
+		'access arguments' => array('access content'),
+		'type' => MENU_CALLBACK,	  
+	);
+
+	$items['api-json/%'] = [
+		'page callback' => 'api_json_by_nid',
+		'access arguments' => array('access content'),
+		'type' => MENU_CALLBACK,	
+		'page arguments' => [1]
+	];
+
+	$items['api-json-prgph/%'] = [
+		'page callback' => 'api_json_paragraph',
+		'access arguments' => array('access content'),
+		'type' => MENU_CALLBACK,	
+		'page arguments' => [1]
+	];
+
+    return $items;
+}
+
+function api_json_all() {
+	$node_type = "espectacle";
+
+    $result = db_query("SELECT nid FROM node WHERE (language = 'ca' and type = 'espectacle')");
+
+    $nids = array();
+      foreach ($result as $obj) {
+        $nids[] = $obj->nid;
+    }
+    
+    $array_nids = array();
+
+    foreach ($nids as $key => $nodeid) {
+    	$array_nids[$key] = $nodeid;
+    }
+
+	$value = [
+		'content' => $array_nids
+	];
+	
+	drupal_json_output($value); 
+}
+
+function api_json_by_nid($nid) {
+	$node = node_load($nid);
+	$array_nids = array();
+	$boolcat = true;
+	$booles = true;
+	$boolen = true;
+
+	for($i = 0; $i < 3; $i++){
+		$new_ch = true;
+		if(translation_node_get_translations($node->tnid)['ca']->nid != NULL && $boolcat != false && $new_ch != false){
+			$nid = translation_node_get_translations($node->tnid)['ca']->nid;
+			$array_nids[$i] = node_load($nid);
+			$boolcat = false;
+			$new_ch = false;
+		}elseif(translation_node_get_translations($node->tnid)['es']->nid != NULL && $booles != false && $new_ch != false){
+			$nid = translation_node_get_translations($node->tnid)['es']->nid;
+			$array_nids[$i] = node_load($nid);
+			$booles = false;
+			$new_ch = false;
+		}elseif(translation_node_get_translations($node->tnid)['en']->nid != NULL && $boolen != false && $new_ch != false){			
+			$nid = translation_node_get_translations($node->tnid)['en']->nid;
+			$array_nids[$i] = node_load($nid);
+			$boolen = false;
+			$new_ch = false;
+		}
+	}
+	
+	$array = (array)$array_nids;
+
+	$value = [
+		'content' => $array_nids
+	];
+
+	drupal_json_output($value);
+}
+
+function api_json_paragraph($prgh) {
+	$paragraph = entity_load('paragraphs_item', array($prgh));
+	$array = (array)$paragraph;
+
+	$value = [
+		'content' => $array
+	];
+
+	drupal_json_output($value);
+}
+
+
+

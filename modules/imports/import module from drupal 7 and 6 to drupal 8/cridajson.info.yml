@@ -1,0 +1,5 @@
+name: 'Crida json'
+type: module
+description: 'cridajson'
+# package: theme
+core: 8.x

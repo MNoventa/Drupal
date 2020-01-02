@@ -1,4 +1,3 @@
-
 <?php
 	
 	//Acceder a campo protected en un paragraph en Drupal 8

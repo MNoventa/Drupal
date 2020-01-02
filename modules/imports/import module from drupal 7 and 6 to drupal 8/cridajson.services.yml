@@ -1,0 +1,3 @@
+services:
+  cridajson.custom_import:
+    class: Drupal\cridajson\CustomImport

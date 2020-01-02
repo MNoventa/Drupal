@@ -1,4 +1,4 @@
-<?php
+ <?php
     function THEMENAME_preprocess_page(&$variables) {
         //Comprobar si la page tiene un nodo, y si el bandle es = a producto
         if(array_key_exists('node', $variables) && $variables['node']->bundle() == 'producto'){
