@@ -712,4 +712,39 @@ class CustomImport {
       }
     }
   }
+
+  public function import_languages(){
+    //Importació camp language per només nodes del drupal 7
+    
+    $path = drupal_get_path('module', 'cridajson') . '/content_type_espectacle.json-2.txt';
+    
+    if(file_exists($path)){
+      $file = file_get_contents($path);
+      $json_array = json_decode($file, true);
+      $rows = $json_array[2]['data'];
+
+      foreach ($rows as $key => $position) {                
+        $nid = $json_array[2]['data'][$key]['nid'];
+        $node = Node::load($nid);
+        
+        if($json_array[2]['data'][$key]['field_idioma_value'] != NULL){
+          $node_ca = $node->getTranslation('ca');
+          $node_ca->set('field_espectacle_language', $json_array[2]['data'][$key]['field_idioma_value']);
+          $node_ca->save();
+        }
+        
+        if($json_array[2]['data'][$key]['field_desc_idioma_es_value'] != NULL){
+          $node_es = $node->getTranslation('es');
+          $node_es->set('field_espectacle_language', $json_array[2]['data'][$key]['field_desc_idioma_es_value']);
+          $node_es->save();
+        }
+
+        if($json_array[2]['data'][$key]['field_desc_idioma_en_value'] != NULL){
+          $node_en = $node->getTranslation('en');
+          $node_en->set('field_espectacle_language', $json_array[2]['data'][$key]['field_desc_idioma_en_value']);
+          $node_en->save();
+        }
+      }
+    }
+  }
 }
