@@ -1,0 +1,5 @@
+services:
+  get_external_video_url.customTwigExtension:
+    class: Drupal\get_external_video_url\customTwigExtension
+    tags:
+      - { name: twig.extension }

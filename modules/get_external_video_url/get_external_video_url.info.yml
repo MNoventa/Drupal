@@ -1,0 +1,5 @@
+name: 'Get external video url'
+type: module
+description: 'Twig extension for return the external url and image from youtube or vimeo video'
+# package: theme
+core: 8.x
